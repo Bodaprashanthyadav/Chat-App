@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="socket.io.js"></script>
+</head>
+<body>
+    <h1>lets chat here</h1>
+
+     <div style="height:200px;width:400px; border:2px solid;scrollbar-width: 10px;overflow-y:scroll ; ">
+        <ul id="root">
+        </ul>
+     </div>
+    
+        <input type="text " size="50px" id="d1"/>
+        <button onclick="sendmessage()">send</button>
+
+    
+    <script>
+        var socket=io();
+    
+        function sendmessage(){
+          var x=  document.getElementById("d1").value
+        
+          addmessage(x)
+            socket.emit("message",x)
+            document.getElementById('d1').value=''
+
+        }
+
+    
+        socket.on("msgtoall",(newmsg)=>{
+           console.log(newmsg)
+        addmessage(newmsg)
+        })
+         function addmessage(newmsg){
+                var nli = document.createElement('li')
+                nli.innerHTML=newmsg
+                document.getElementById('root').appendChild(nli)
+            
+            }
+    </script>
+</body>
+</html>
